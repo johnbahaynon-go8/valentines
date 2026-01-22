@@ -117,6 +117,32 @@
         box-shadow: 0 24px 36px rgba(94, 15, 28, 0.28);
       }
 
+      #yes-btn {
+        --yes-scale: 1;
+        transform: scale(var(--yes-scale));
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+      }
+
+      #yes-btn:hover {
+        transform: translateY(-2px) scale(var(--yes-scale));
+      }
+
+      .rsvp-actions {
+        margin-top: 10px;
+      }
+
+      .rsvp-message {
+        margin-top: 14px;
+        font-weight: 600;
+        color: var(--wine);
+        min-height: 1.2em;
+        text-align: center;
+      }
+
+      .rsvp-success {
+        text-align: center;
+      }
+
       .grid {
         display: grid;
         gap: 22px;
@@ -204,6 +230,46 @@
         padding: 14px;
         font-weight: 600;
         color: rgba(94, 15, 28, 0.8);
+      }
+
+      .gallery-card.valorant-card {
+        background:
+          linear-gradient(140deg, rgba(94, 15, 28, 0.4), rgba(243, 199, 194, 0.4)),
+          url("jett.jpg");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+      }
+
+      .gallery-card.coffee-card {
+        background:
+          linear-gradient(140deg, rgba(46, 27, 20, 0.4), rgba(243, 199, 194, 0.35)),
+          url("coffee.jpg");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+      }
+
+      .gallery-card.music-card {
+        background:
+          linear-gradient(140deg, rgba(24, 20, 46, 0.45), rgba(243, 199, 194, 0.35)),
+          url("4ofspades.jpg");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+      }
+
+      .gallery-card.drawing-card {
+        background:
+          linear-gradient(140deg, rgba(42, 17, 21, 0.45), rgba(243, 199, 194, 0.35)),
+          url("unik.jpg");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
       }
 
       .details-list {
@@ -307,10 +373,9 @@
       <div class="floating-heart" aria-hidden="true"></div>
       <header class="reveal">
         <div class="eyebrow">Valentine's Proposal</div>
-        <h1>For My Girl, My Favorite Person</h1>
+        <h1>For "Aking Irog" Miles, My one and only beautiful girl.</h1>
         <p class="hero-subtitle">
-          A small, romantic plan for the night where I remind you how loved you
-          are and ask you to be my Valentine.
+          A small, romantic plan for the night where I remind you na deserved mo rin na mahalin at pahalagahan ng tunay, oh aking irog.
         </p>
         <div class="hero-actions">
           <a class="btn primary" href="#plan">&#10084; See the plan</a>
@@ -319,42 +384,48 @@
       </header>
 
       <section id="letter" class="card reveal">
-        <h2>Love Letter</h2>
+        <h2>Letter of Proposal</h2>
         <p class="letter">
-          I keep replaying the little moments with you, the laughter, the quiet,
-          the way you make ordinary days feel warm and bright. This Valentine's
-          Day I want to celebrate you in every detail. Thank you for being my
-          calm, my spark, and my favorite story. Will you be my Valentine?
+          Hi Miles! I'm John, I know I cannot be talk with you without the game that we are wanted to play with at eto ay ang Valorantttt.
+          Alam ko na hindi pa ako masyadong close or kilala ka ng husto pero iba na ang naging pakiramdam ko simula nung nakausap kita.
+          Alam ko hindi rin naging maganda ang takbo ng buhay mo at sa relasyon na pinagdaanan mo. Ngunit, ako ay lagi lang nandito para sayo kahit
+          malayo ako at kahit wala ako sa tabi mo lagi handa ako makinig sa lahat ng problema mo at kung maghihintay man ako sa haba ng panahon "bilang kaibigan" papunta
+          sa "ka-ibigan" handa akong ibigay lahat ng yon pero wag muna ngayon dahil nirerespeto ko ang pagkatao mo at pati ang parents mo.
         </p>
         <p class="letter">
-          I planned a night that feels like us, soft, sweet, and full of tiny
-          surprises. I can't wait to see you and make new memories together.
+          And on this day I'm hoping and ensuring this will be your best day. Walang lungkot at lahat ng iyong pagod, susubukan kong
+          alisin lahat para maramdaman mo na may nagpapahalaga pa sayo and ako yunnnnnnnnnnnnnnnnnnn!!!!!!
         </p>
       </section>
 
       <section id="plan" class="grid two">
         <div class="card reveal">
-          <h2>Night Plan</h2>
+          <h2>Day and Night Plan</h2>
           <div class="timeline">
             <div class="timeline-item">
-              <div class="timeline-time">6:00 PM</div>
+              <div class="timeline-time">11:00 AM </div>
               <strong>Meet & flowers</strong>
               <span>I'll pick you up with your favorite flowers.</span>
             </div>
             <div class="timeline-item">
-              <div class="timeline-time">7:00 PM</div>
-              <strong>Dinner for two</strong>
+              <div class="timeline-time">12:00 PM onwards</div>
+              <strong>Lunch "Date?"</strong>
               <span>Cozy table, candlelight, and your favorite dish.</span>
             </div>
             <div class="timeline-item">
-              <div class="timeline-time">8:30 PM</div>
-              <strong>Little surprise</strong>
-              <span>A sweet stop for dessert and a tiny gift.</span>
+              <div class="timeline-time">2:00 PM onwards</div>
+              <strong>Walk around</strong>
+              <span>Tayo ay maguusap usap habang naglalakad yipieee.</span>
             </div>
             <div class="timeline-item">
-              <div class="timeline-time">9:30 PM</div>
-              <strong>Slow stroll</strong>
-              <span>Quiet walk, music, and the big question.</span>
+              <div class="timeline-time">6:00 PM</div>
+              <strong>Rides</strong>
+              <span>Sakay tayo rides if want mo (takot ako pero sasakay ako para sayo). </span>
+            </div>
+             <div class="timeline-item">
+              <div class="timeline-time">7:00 PM onwards</div>
+              <strong>Uwian</strong>
+              <span>Prepare na sa paguwiii.😔 </span>
             </div>
           </div>
         </div>
@@ -362,29 +433,27 @@
           <h2>Why You</h2>
           <p>
             You make everything softer, brighter, and more beautiful. Here are a
-            few reasons I love you:
+            few reasons I like you:
           </p>
           <div class="pill-list">
             <div class="pill">Your laugh is my favorite sound</div>
             <div class="pill">You always show up with kindness</div>
             <div class="pill">You make me feel calm and brave</div>
             <div class="pill">You see beauty in small things</div>
-            <div class="pill">You are my home</div>
           </div>
         </div>
       </section>
 
       <section class="card reveal">
-        <h2>Moments We Love</h2>
+        <h2>Things we love</h2>
         <p>
-          Add your favorite photos here. Replace the labels with your own
-          captions.
+          Mga gusto mo at gusto ko na match na para bang mix and match?!?!?
         </p>
         <div class="gallery">
-          <div class="gallery-card">First coffee together</div>
-          <div class="gallery-card">Our favorite sunset</div>
-          <div class="gallery-card">That night we laughed forever</div>
-          <div class="gallery-card">The little road trip</div>
+          <div class="gallery-card valorant-card">Valorant</div>
+          <div class="gallery-card coffee-card">Coffee</div>
+          <div class="gallery-card music-card">Music</div>
+          <div class="gallery-card drawing-card">Drawing</div>
         </div>
       </section>
 
@@ -393,52 +462,49 @@
           <h2>Details</h2>
           <div class="details-list">
             <div class="detail-row">
-              <span>Date</span>
+              <span>Date Arrival</span>
               <span>February 14</span>
             </div>
             <div class="detail-row">
               <span>Time</span>
-              <span>6:00 PM - Late</span>
+              <span>10:00 AM onwards</span>
             </div>
             <div class="detail-row">
               <span>Dress</span>
-              <span>Romantic & comfy</span>
+              <span>Ikaw bahala basta comfyyyy kaaaaaa, pag may tumingin sayo yari sila sakin. (as a friend care) </span>
             </div>
             <div class="detail-row">
               <span>Location</span>
-              <span>Your favorite spot</span>
+              <span>Mall of Asia</span>
+            </div>
+                <div class="detail-row">
+              <span>Uwian</span>
+              <span>8:00 pm or 9:00 pm onwards</span>
             </div>
           </div>
         </div>
-        <div class="card reveal">
-          <h2>Little Extras</h2>
-          <p>
-            These are the tiny touches to make the night feel special. Swap in
-            anything that feels more like us.
-          </p>
-          <ul>
-            <li>Playlist of songs that remind me of you.</li>
-            <li>Handwritten note with a pressed flower.</li>
-            <li>Polaroids of our favorite memories.</li>
-            <li>A sweet surprise tucked in your bag.</li>
-          </ul>
-        </div>
+
       </section>
 
-      <section class="card reveal">
+            <section class="card reveal" id="rsvp-section">
         <h2>RSVP</h2>
         <p>
-          If you say yes, tap the button below and send me a simple "Yes, I will
-          be your Valentine." If you want to tweak the plan, tell me what you
-          want to change.
+          If yes ang sagot mo, tap the button below and send me a simple "Yes". 😘
         </p>
-        <a class="btn primary" href="mailto:you@example.com?subject=Valentine%20Yes&body=Yes%2C%20I%20will%20be%20your%20Valentine!">
-          Send my answer
-        </a>
+        <div class="hero-actions rsvp-actions">
+          <button class="btn primary" id="yes-btn" type="button">Yes</button>
+          <button class="btn secondary" id="no-btn" type="button">No</button>
+        </div>
+        <p class="rsvp-message" id="rsvp-message"></p>
+      </section>
+
+      <section class="card reveal rsvp-success" id="rsvp-success" hidden>
+        <h2>Thank You 🥰</h2>
+        <p class="letter">I like you so muchhhhhhhhhh.</p>
       </section>
 
       <footer class="reveal">
-        Made with love for my girl &#10084;
+        Made with love for the girl I want   &#10084;
       </footer>
     </div>
 
@@ -460,6 +526,49 @@
         item.style.transitionDelay = `${index * 0.08}s`;
         observer.observe(item);
       });
+
+      const yesBtn = document.getElementById("yes-btn");
+      const noBtn = document.getElementById("no-btn");
+      const message = document.getElementById("rsvp-message");
+      const success = document.getElementById("rsvp-success");
+      const rsvpSection = document.getElementById("rsvp-section");
+
+      if (yesBtn && noBtn) {
+        const noMessages = [
+          "Click mo po ulit",
+          "One more",
+          "Di pwede",
+          "Akin ka lang",
+          "Hehe",
+          "No, no?",
+          "Akin ka lang"
+        ];
+
+        let noIndex = 0;
+        let yesScale = 1;
+
+        noBtn.addEventListener("click", () => {
+          if (message) {
+            message.textContent = noMessages[noIndex % noMessages.length];
+          }
+          noIndex += 1;
+          yesScale = Math.min(1.8, yesScale + 0.12);
+          yesBtn.style.setProperty("--yes-scale", yesScale.toFixed(2));
+        });
+
+        yesBtn.addEventListener("click", () => {
+          if (success) {
+            success.hidden = false;
+            success.classList.add("is-visible");
+          }
+          if (rsvpSection) {
+            rsvpSection.hidden = true;
+          }
+          if (success) {
+            success.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
+      }
     </script>
   </body>
 </html>
