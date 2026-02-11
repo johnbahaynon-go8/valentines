@@ -16,15 +16,42 @@ export default function HomePage() {
   const [mounted, setMounted] = useState(false);
   const [isFabOpen, setIsFabOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+  const [introStep, setIntroStep] = useState(0);
+  const [isIntroLeaving, setIsIntroLeaving] = useState(false);
+  const [isSlideOneLeaving, setIsSlideOneLeaving] = useState(false);
 
   const tracks = [
     { title: "Let Down", artist: "Radiohead", src: `${basePath}/letdown_radiohead.mp4` },
     { title: "Pahinga", artist: "Unique Salonga", src: `${basePath}/pahinga_uniquesalonga.mp4` },
   ];
 
+  const introSlides = [
+    {
+      title: "Hi Miles, Hi Tita!",
+      message: "I'm John po and I made this for Miles.",
+    },
+    {
+      title: "This is a small and simple proposal for you.",
+      message: "Sana magustuhan mo po!!",
+    },
+  ];
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (showIntro) {
+      document.body.classList.add("intro-active");
+    } else {
+      document.body.classList.remove("intro-active");
+    }
+
+    return () => {
+      document.body.classList.remove("intro-active");
+    };
+  }, [showIntro]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 640px)");
@@ -73,49 +100,12 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    const tryPlay = async () => {
-      if (!audioRef.current) return false;
-      try {
-        audioRef.current.muted = !hasInteractedRef.current;
-        audioRef.current.volume = 0.9;
-        await audioRef.current.play();
-        setIsPlaying(true);
-        return true;
-      } catch {
-        return false;
-      }
-    };
-
-    tryPlay();
-
-    const unlockAudio = () => {
-      if (hasInteractedRef.current) return;
-      hasInteractedRef.current = true;
-      if (audioRef.current) {
-        audioRef.current.muted = false;
-        audioRef.current.volume = 0.9;
-      }
-      tryPlay();
-      window.removeEventListener("pointerdown", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-      window.removeEventListener("scroll", unlockAudio);
-      window.removeEventListener("wheel", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
-    };
-
-    window.addEventListener("pointerdown", unlockAudio);
-    window.addEventListener("touchstart", unlockAudio, { passive: true });
-    window.addEventListener("scroll", unlockAudio, { passive: true });
-    window.addEventListener("wheel", unlockAudio, { passive: true });
-    window.addEventListener("keydown", unlockAudio);
-
-    return () => {
-      window.removeEventListener("pointerdown", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-      window.removeEventListener("scroll", unlockAudio);
-      window.removeEventListener("wheel", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
-    };
+    if (!audioRef.current) return;
+    audioRef.current.muted = true;
+    audioRef.current.volume = 0.9;
+    audioRef.current.play().catch(() => {
+      setIsPlaying(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -176,9 +166,69 @@ export default function HomePage() {
     setTrackIndex(nextIndex);
   };
 
+  const startFirstSong = async () => {
+    hasInteractedRef.current = true;
+    setTrackIndex(0);
+    if (!audioRef.current) return;
+
+    const audio = audioRef.current;
+    audio.muted = false;
+    audio.volume = 0.9;
+    audio.currentTime = 0;
+
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch {
+      setIsPlaying(false);
+    }
+  };
+
+  const handleIntroPlay = async () => {
+    setIsIntroLeaving(true);
+    await startFirstSong();
+    setTimeout(() => {
+      setShowIntro(false);
+      setIsIntroLeaving(false);
+    }, 420);
+  };
+
+  useEffect(() => {
+    if (!showIntro) return;
+
+    const slideTimer = setTimeout(() => {
+      if (introStep === 0) {
+        setIsSlideOneLeaving(true);
+        setTimeout(() => {
+          setIntroStep(1);
+          setIsSlideOneLeaving(false);
+        }, 420);
+      }
+    }, 2500);
+
+    return () => {
+      clearTimeout(slideTimer);
+    };
+  }, [showIntro, introStep, introSlides.length]);
+
   return (
     <>
+      {showIntro && (
+        <div className={`intro-overlay${isIntroLeaving ? " is-leaving" : ""}`} role="dialog" aria-modal="true">
+          <div className={`intro-screen${introStep === 0 && isSlideOneLeaving ? " is-slide-out" : ""}`}>
+            <h2>{introSlides[introStep].title}</h2>
+            <p>{introSlides[introStep].message}</p>
+            {introStep === introSlides.length - 1 && (
+              <button className="intro-cta" type="button" onClick={handleIntroPlay}>
+                Let's go!!!
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {mounted &&
+        !showIntro &&
         createPortal(
           <div className={`music-fab ${isFabOpen ? "is-open" : ""}`} aria-live="polite">
             <div className="music-fab-panel" id="music-fab-panel" aria-hidden={isMobileView ? !isFabOpen : false}>
@@ -293,7 +343,7 @@ export default function HomePage() {
             <div className="timeline-item">
               <div className="timeline-time">7:00 PM onwards</div>
               <strong>Uwian</strong>
-              <span>Prepare na sa paguwiii.😔 </span>
+              <span>Prepare na sa paguwiii😔pero wag ka po mag alala, ihahatid kita!! </span>
             </div>
           </div>
         </div>
