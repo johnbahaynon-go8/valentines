@@ -1,21 +1,54 @@
 ﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function HomePage() {
   const basePath = process.env.NODE_ENV === "production" ? "/valentines" : "";
   const audioRef = useRef(null);
+  const hasInteractedRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [message, setMessage] = useState("");
   const [yesScale, setYesScale] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
   const [noIndex, setNoIndex] = useState(0);
   const [trackIndex, setTrackIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const [isFabOpen, setIsFabOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   const tracks = [
-    { title: "Pahinga", artist: "Unique Salonga", src: `${basePath}/pahinga_uniquesalonga.mp4` },
     { title: "Let Down", artist: "Radiohead", src: `${basePath}/letdown_radiohead.mp4` },
+    { title: "Pahinga", artist: "Unique Salonga", src: `${basePath}/pahinga_uniquesalonga.mp4` },
   ];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
+    const syncViewport = (event) => {
+      const mobile = event.matches;
+      setIsMobileView(mobile);
+      setIsFabOpen(!mobile);
+    };
+
+    syncViewport(mediaQuery);
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncViewport);
+    } else {
+      mediaQuery.addListener(syncViewport);
+    }
+
+    return () => {
+      if (typeof mediaQuery.removeEventListener === "function") {
+        mediaQuery.removeEventListener("change", syncViewport);
+      } else {
+        mediaQuery.removeListener(syncViewport);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const items = document.querySelectorAll(".reveal");
@@ -43,7 +76,7 @@ export default function HomePage() {
     const tryPlay = async () => {
       if (!audioRef.current) return false;
       try {
-        audioRef.current.muted = false;
+        audioRef.current.muted = !hasInteractedRef.current;
         audioRef.current.volume = 0.9;
         await audioRef.current.play();
         setIsPlaying(true);
@@ -56,16 +89,31 @@ export default function HomePage() {
     tryPlay();
 
     const unlockAudio = () => {
+      if (hasInteractedRef.current) return;
+      hasInteractedRef.current = true;
+      if (audioRef.current) {
+        audioRef.current.muted = false;
+        audioRef.current.volume = 0.9;
+      }
       tryPlay();
       window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+      window.removeEventListener("scroll", unlockAudio);
+      window.removeEventListener("wheel", unlockAudio);
       window.removeEventListener("keydown", unlockAudio);
     };
 
     window.addEventListener("pointerdown", unlockAudio);
+    window.addEventListener("touchstart", unlockAudio, { passive: true });
+    window.addEventListener("scroll", unlockAudio, { passive: true });
+    window.addEventListener("wheel", unlockAudio, { passive: true });
     window.addEventListener("keydown", unlockAudio);
 
     return () => {
       window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+      window.removeEventListener("scroll", unlockAudio);
+      window.removeEventListener("wheel", unlockAudio);
       window.removeEventListener("keydown", unlockAudio);
     };
   }, []);
@@ -73,6 +121,8 @@ export default function HomePage() {
   useEffect(() => {
     const loadAndPlay = async () => {
       if (!audioRef.current) return;
+      audioRef.current.muted = !hasInteractedRef.current;
+      audioRef.current.volume = 0.9;
       audioRef.current.load();
       try {
         await audioRef.current.play();
@@ -87,6 +137,9 @@ export default function HomePage() {
   const handleMusic = async () => {
     if (!audioRef.current) return;
     try {
+      hasInteractedRef.current = true;
+      audioRef.current.muted = false;
+      audioRef.current.volume = 0.9;
       await audioRef.current.play();
       setIsPlaying(true);
     } catch {
@@ -124,15 +177,49 @@ export default function HomePage() {
   };
 
   return (
-    <div
-      className="page"
-      style={{
-        "--jett-url": `url(${basePath}/jett.jpg)`,
-        "--coffee-url": `url(${basePath}/coffee.jpg)`,
-        "--music-url": `url(${basePath}/4ofspades.jpg)`,
-        "--drawing-url": `url(${basePath}/unik.jpg)`,
-      }}
-    >
+    <>
+      {mounted &&
+        createPortal(
+          <div className={`music-fab ${isFabOpen ? "is-open" : ""}`} aria-live="polite">
+            <div className="music-fab-panel" id="music-fab-panel" aria-hidden={isMobileView ? !isFabOpen : false}>
+              <div className="music-overlay-title">Now Playing</div>
+              <div className="music-track">
+                {tracks[trackIndex].title} by {tracks[trackIndex].artist}
+              </div>
+              <div className="music-controls">
+                <button className="primary" type="button" onClick={handleMusic} disabled={isPlaying}>
+                  {isPlaying ? "Playing" : "Play"}
+                </button>
+                <button className="icon-btn" type="button" onClick={handleNextTrack} aria-label="Next song">
+                  Next
+                </button>
+              </div>
+            </div>
+            <button
+              className="music-fab-btn"
+              type="button"
+              onClick={() => setIsFabOpen((prev) => !prev)}
+              aria-expanded={isFabOpen}
+              aria-controls="music-fab-panel"
+            >
+              <span className="music-fab-icon" aria-hidden="true">
+                {isFabOpen ? "×" : "♫"}
+              </span>
+              <span className="music-fab-label">{isFabOpen ? "Close" : "Music"}</span>
+            </button>
+          </div>,
+          document.body
+        )}
+
+      <div
+        className="page"
+        style={{
+          "--jett-url": `url(${basePath}/jett.jpg)`,
+          "--coffee-url": `url(${basePath}/coffee.jpg)`,
+          "--music-url": `url(${basePath}/4ofspades.jpg)`,
+          "--drawing-url": `url(${basePath}/unik.jpg)`,
+        }}
+      >
       <div className="floating-petals" aria-hidden="true">
         <span className="petal"></span>
         <span className="petal"></span>
@@ -141,21 +228,10 @@ export default function HomePage() {
         <span className="petal"></span>
       </div>
       <div className="floating-heart" aria-hidden="true"></div>
+      <div className="floating-heart heart-two" aria-hidden="true"></div>
+      <div className="floating-heart heart-three" aria-hidden="true"></div>
+      <div className="floating-heart heart-four" aria-hidden="true"></div>
       <div className="halo" aria-hidden="true"></div>
-      <div className="music-overlay" aria-live="polite">
-        <div className="music-overlay-title">Now Playing</div>
-        <div className="music-track">
-          {tracks[trackIndex].title} by {tracks[trackIndex].artist}
-        </div>
-        <div className="music-controls">
-          <button className="primary" type="button" onClick={handleMusic} disabled={isPlaying}>
-            {isPlaying ? "Playing" : "Play"}
-          </button>
-          <button className="icon-btn" type="button" onClick={handleNextTrack} aria-label="Next song">
-            Next
-          </button>
-        </div>
-      </div>
       <audio ref={audioRef} preload="auto" loop playsInline autoPlay>
         <source src={tracks[trackIndex].src} type="audio/mp4" />
       </audio>
@@ -309,5 +385,6 @@ export default function HomePage() {
 
       <footer className="reveal">Made with love for the girl I want &#10084;</footer>
     </div>
+    </>
   );
 }
