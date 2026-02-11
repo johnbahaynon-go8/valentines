@@ -175,6 +175,12 @@ h1 {
   backdrop-filter: blur(10px);
 }
 
+@media (max-width: 640px) {
+  body {
+    padding-bottom: 120px;
+  }
+}
+
 .music-overlay-title {
   font-size: 0.85rem;
   text-transform: uppercase;
