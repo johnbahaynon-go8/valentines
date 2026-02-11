@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function HomePage() {
+  const basePath = process.env.NODE_ENV === "production" ? "/valentines" : "";
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [message, setMessage] = useState("");
@@ -12,8 +13,8 @@ export default function HomePage() {
   const [trackIndex, setTrackIndex] = useState(0);
 
   const tracks = [
-    { title: "Pahinga", artist: "Unique Salonga", src: "/pahinga_uniquesalonga.mp4" },
-    { title: "Let Down", artist: "Radiohead", src: "/letdown_radiohead.mp4" },
+    { title: "Pahinga", artist: "Unique Salonga", src: `${basePath}/pahinga_uniquesalonga.mp4` },
+    { title: "Let Down", artist: "Radiohead", src: `${basePath}/letdown_radiohead.mp4` },
   ];
 
   useEffect(() => {
@@ -123,7 +124,15 @@ export default function HomePage() {
   };
 
   return (
-    <div className="page">
+    <div
+      className="page"
+      style={{
+        "--jett-url": `url(${basePath}/jett.jpg)`,
+        "--coffee-url": `url(${basePath}/coffee.jpg)`,
+        "--music-url": `url(${basePath}/4ofspades.jpg)`,
+        "--drawing-url": `url(${basePath}/unik.jpg)`,
+      }}
+    >
       <div className="floating-petals" aria-hidden="true">
         <span className="petal"></span>
         <span className="petal"></span>

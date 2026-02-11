@@ -376,9 +376,9 @@ section {
 }
 
 .gallery-card.valorant-card {
-  background:
+  background-image:
     linear-gradient(140deg, rgba(94, 15, 28, 0.4), rgba(243, 199, 194, 0.4)),
-    url("/jett.jpg");
+    var(--jett-url);
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -386,9 +386,9 @@ section {
 }
 
 .gallery-card.coffee-card {
-  background:
+  background-image:
     linear-gradient(140deg, rgba(46, 27, 20, 0.4), rgba(243, 199, 194, 0.35)),
-    url("/coffee.jpg");
+    var(--coffee-url);
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -396,9 +396,9 @@ section {
 }
 
 .gallery-card.music-card {
-  background:
+  background-image:
     linear-gradient(140deg, rgba(24, 20, 46, 0.45), rgba(243, 199, 194, 0.35)),
-    url("/4ofspades.jpg");
+    var(--music-url);
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -406,9 +406,9 @@ section {
 }
 
 .gallery-card.drawing-card {
-  background:
+  background-image:
     linear-gradient(140deg, rgba(42, 17, 21, 0.45), rgba(243, 199, 194, 0.35)),
-    url("/unik.jpg");
+    var(--drawing-url);
   background-size: cover;
   background-position: center;
   color: #fff;
