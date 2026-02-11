@@ -161,8 +161,9 @@ h1 {
 
 .music-overlay {
   position: fixed;
-  top: 18px;
   right: 18px;
+  bottom: 18px;
+  top: auto;
   z-index: 10;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(126, 31, 43, 0.2);
@@ -175,10 +176,8 @@ h1 {
   backdrop-filter: blur(10px);
 }
 
-@media (max-width: 640px) {
-  body {
-    padding-bottom: 120px;
-  }
+body {
+  padding-bottom: 120px;
 }
 
 .music-overlay-title {
